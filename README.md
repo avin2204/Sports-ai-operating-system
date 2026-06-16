@@ -1,6 +1,41 @@
 # Sports-ai-operating-system
 Enterprise AI Operating System for Sports Analytics using FastAPI, Qdrant, Redis, PostgreSQL, Gemini and LangGraph
 
+## Architecture
+
+User Query
+    ↓
+Retriever
+    ↓
+Qdrant Vector Store
+    ↓
+Context Builder
+    ↓
+Gemini
+    ↓
+Answer
+
+## Features
+
+- FastAPI Backend
+- Docker Deployment
+- PostgreSQL
+- Redis
+- Qdrant
+- Local Embeddings
+- Semantic Retrieval
+- Gemini Answer Generation
+- End-to-End RAG
+
+## Tech Stack
+
+- FastAPI
+- Docker
+- PostgreSQL
+- Redis
+- Qdrant
+- Gemini
+- Sentence Transformers
 ## Roadmap
 
 ### Phase 1 — RAG Foundation ✅
