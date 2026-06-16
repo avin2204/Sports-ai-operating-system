@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  api:
+    build: .
+    container_name: sports-ai-api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - postgres
+      - qdrant
+    restart: always
+
+
+  redis:
+    image: redis:7
+    container_name: sports-ai-redis
+    ports:
+      - "6379:6379"
+    restart: always
+
+  postgres:
+    image: postgres:16
+    container_name: sports-ai-postgres
+    environment:
+      POSTGRES_USER: sportsadmin
+      POSTGRES_PASSWORD: sportspassword
+      POSTGRES_DB: sports_ai_os
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+  qdrant:
+    image: qdrant/qdrant
+    container_name: sports-ai-qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    restart: always
+
+volumes:
+  postgres_data:
+  qdrant_data:
