@@ -1,0 +1,3 @@
+from app.db.models.document import (
+    Document
+)

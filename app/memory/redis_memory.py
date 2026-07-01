@@ -1,37 +1,55 @@
-# app/memory/redis_memory.py
-
-import redis
 import json
 
-redis_client = redis.Redis(
-    host="redis",
-    port=6379,
-    decode_responses=True
+import redis
+
+from app.memory.base_memory import (
+    BaseMemory
 )
 
 
-class RedisMemory:
+class RedisMemory(
+    BaseMemory
+):
 
-    def save_context(
-        self,
-        session_id,
-        state
-    ):
+    def __init__(self):
 
-        redis_client.set(
-            session_id,
-            json.dumps(state),
-            ex=86400
+        self.redis = redis.Redis(
+            host="localhost",
+            port=6379,
+            decode_responses=True
         )
 
-    def load_context(
+    def save(
+        self,
+        session_id,
+        role,
+        content
+    ):
+
+        self.redis.rpush(
+
+            f"chat:{session_id}",
+
+            json.dumps(
+                {
+                    "role": role,
+                    "content": content
+                }
+            )
+        )
+
+    def get_history(
         self,
         session_id
     ):
 
-        data = redis_client.get(session_id)
+        data = self.redis.lrange(
+            f"chat:{session_id}",
+            0,
+            -1
+        )
 
-        if not data:
-            return {}
-
-        return json.loads(data)
+        return [
+            json.loads(item)
+            for item in data
+        ]

@@ -1,45 +1,24 @@
+import os
+
+
 class MetadataExtractor:
 
+    @staticmethod
     def extract(
-        self,
-        text
+        file_path: str
     ):
 
-        metadata = {
+        stat = os.stat(
+            file_path
+        )
 
-            "sport": None,
+        return {
 
-            "team": None,
+            "file_name":
+            os.path.basename(
+                file_path
+            ),
 
-            "player": None,
-
-            "season": None
+            "size":
+            stat.st_size
         }
-
-        lower = text.lower()
-
-        if "ipl" in lower:
-
-            metadata["sport"] = (
-                "cricket"
-            )
-
-        if "epl" in lower:
-
-            metadata["sport"] = (
-                "football"
-            )
-
-        if "virat kohli" in lower:
-
-            metadata["player"] = (
-                "Virat Kohli"
-            )
-
-        if "messi" in lower:
-
-            metadata["player"] = (
-                "Messi"
-            )
-
-        return metadata

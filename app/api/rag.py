@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from fastapi import APIRouter
 
 from app.rag.embeddings.local_embedding import (
@@ -14,21 +16,53 @@ from app.providers.gemini_provider import (
 
 router = APIRouter()
 
-embedding_model = LocalEmbedding()
-vector_store = QdrantVectorStore()
-llm = GeminiProvider()
+
+@lru_cache
+def get_embedding_model():
+
+    return LocalEmbedding()
+
+
+@lru_cache
+def get_vector_store():
+
+    return QdrantVectorStore()
+
+
+@lru_cache
+def get_llm():
+
+    return GeminiProvider()
 
 
 @router.post("/ask")
-def ask(question: str):
+def ask(
+    question: str
+):
 
-    query_vector = embedding_model.embed(
-        question
+    embedding_model = (
+        get_embedding_model()
     )
 
-    results = vector_store.search(
-        embedding=query_vector,
-        top_k=3
+    vector_store = (
+        get_vector_store()
+    )
+
+    llm = (
+        get_llm()
+    )
+
+    query_vector = (
+        embedding_model.embed(
+            question
+        )
+    )
+
+    results = (
+        vector_store.search(
+            embedding=query_vector,
+            top_k=3
+        )
     )
 
     context = "\n".join(
@@ -37,21 +71,29 @@ def ask(question: str):
     )
 
     prompt = f"""
-    Context:
-    {context}
+Context:
+{context}
 
-    Question:
-    {question}
+Question:
+{question}
 
-    Answer:
-    """
+Answer:
+"""
 
-    answer = llm.generate(
-        prompt
+    answer = (
+        llm.generate(
+            prompt
+        )
     )
 
     return {
-        "question": question,
-        "answer": answer,
-        "context": context
+
+        "question":
+        question,
+
+        "answer":
+        answer,
+
+        "context":
+        context
     }

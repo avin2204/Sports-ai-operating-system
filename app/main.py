@@ -12,15 +12,35 @@ from app.api.match_analysis import (
     router as match_router
 )
 
-from app.api.rag import (
-    router as rag_router
+from app.api.ask import (
+    router as ask_router
 )
 
+from app.api.ingestion import (
+    router as ingestion_router
+)
+
+from app.api.task_status import (
+    router as task_router
+)
+
+from app.api.qdrant_stats import (
+    router as qdrant_router
+)
+
+from app.api.session import (
+    router as session_router
+)
+
+from app.api.chat_history import (
+    router as history_router
+)
+
+print("AVIN TEST 123")
 
 app = FastAPI(
     title="Sports Enterprise AI OS"
 )
-
 
 app.include_router(
     player_router,
@@ -38,8 +58,27 @@ app.include_router(
 )
 
 app.include_router(
-    rag_router,
-    prefix="/api"
+    ingestion_router
+)
+
+app.include_router(
+    task_router
+)
+
+app.include_router(
+    ask_router
+)
+
+app.include_router(
+    qdrant_router
+)
+
+app.include_router(
+    session_router
+)
+
+app.include_router(
+    history_router
 )
 
 

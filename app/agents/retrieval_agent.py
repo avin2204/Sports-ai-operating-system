@@ -1,12 +1,21 @@
 def retrieval_agent(state):
 
-    question = state["question"]
+    question = state.get(
+        "rewritten_question",
+        state["question"]
+    )
 
-    docs = rag_service.retrieve(question)
+    docs = rag_service.retrieve(
+        question
+    )
 
-    state["retrieved_chunks"] = [
-        doc.page_content
-        for doc in docs
-    ]
+    context = "\n".join(
+        [
+            doc.payload["text"]
+            for doc in docs
+        ]
+    )
 
-    return state
+    return {
+        "context": context
+    }

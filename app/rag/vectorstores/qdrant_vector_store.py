@@ -60,7 +60,7 @@ class QdrantVectorStore(BaseVectorStore):
     def search(
         self,
         embedding: list[float],
-        top_k: int = 3
+        top_k: int = 5
     ):
 
         results = self.client.query_points(

@@ -1,8 +1,10 @@
 from app.rag.loaders.text_loader import TextLoader
 from app.rag.chunkers.fixed_chunker import FixedChunker
-from app.rag.embeddings.gemini_embedding import GeminiEmbedding
-from app.rag.vectorstores.in_memory_vector_store import (
-    InMemoryVectorStore
+from app.rag.embeddings.local_embedding import (
+    LocalEmbedding
+)
+from app.rag.vectorstores.qdrant_vector_store import (
+    QdrantVectorStore
 )
 from app.rag.prompts.prompt_builder import (
     PromptBuilder
@@ -27,10 +29,10 @@ class RAGService:
 
         self.llm = GeminiProvider()
 
-        self.embedding_model = GeminiEmbedding()
+        self.embedding_model = LocalEmbedding()
 
         self.vector_store = (
-            InMemoryVectorStore()
+            QdrantVectorStore()
         )
 
     def ingest(

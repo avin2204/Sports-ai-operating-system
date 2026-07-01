@@ -1,125 +1,147 @@
-from app.agents.player_agent import player_agent
-from app.agents.team_agent import team_agent
-from app.agents.statistics_agent import statistics_agent
-from app.agents.prediction_agent import prediction_agent
+from langgraph.graph import (
+    StateGraph,
+    START,
+    END
+)
 
-from app.agents.injury_agent import injury_agent
+from langgraph.checkpoint.memory import (
+    InMemorySaver
+)
 
-from app.agents.transfer_agent import transfer_agent
+from app.graph.state import SportsState
 
-from app.agents.commentary_agent import commentary_agent
+from app.agents.supervisor_agent import (
+    supervisor_agent
+)
 
-from app.agents.scouting_agent import scouting_agent
+from app.agents.router_agent import (
+    router_agent
+)
 
-from app.agents.fantasy_team_agent import fantasy_team_agent
+from app.agents.cricket_agent import (
+    cricket_agent
+)
 
-from app.agents.match_prediction_agent import (
-    match_prediction_agent
+from app.agents.football_agent import (
+    football_agent
+)
+
+from app.agents.analysis_agent import (
+    analysis_agent
+)
+
+from app.agents.answer_agent import (
+    answer_agent
+)
+
+from app.agents.router_logic import (
+    route_question
+)
+from app.agents.memory_agent import (
+    memory_agent
+)
+
+from app.agents.query_rewriter_agent import (
+    query_rewriter_agent
 )
 
 
-builder.add_node(
-    "player",
-    player_agent
-)
+def build_graph():
 
-builder.add_node(
-    "team",
-    team_agent
-)
+    graph = StateGraph(
+        SportsState
+    )
 
-builder.add_node(
-    "statistics",
-    statistics_agent
-)
+    graph.add_node(
+        "supervisor",
+        supervisor_agent
+    )
 
-builder.add_node(
-    "prediction",
-    prediction_agent
-)
+    graph.add_node(
+        "router",
+        router_agent
+    )
 
-builder.add_edge(
-    "retrieval",
-    "player"
-)
+    graph.add_node(
+        "cricket",
+        cricket_agent
+    )
 
-builder.add_edge(
-    "player",
-    "team"
-)
+    graph.add_node(
+        "football",
+        football_agent
+    )
 
-builder.add_edge(
-    "team",
-    "statistics"
-)
+    graph.add_node(
+        "analyze",
+        analysis_agent
+    )
 
-builder.add_edge(
-    "statistics",
-    "prediction"
-)
+    graph.add_node(
+        "answer",
+        answer_agent
+    )
 
-builder.add_node(
-    "injury",
-    injury_agent
-)
+    graph.add_node(
+        "memory",
+        memory_agent
+    )
 
-builder.add_node(
-    "transfer",
-    transfer_agent
-)
+    graph.add_node(
+        "rewriter",
+        query_rewriter_agent
+    )
+    graph.add_edge(
+        START,
+        "memory"
+    )
 
-builder.add_node(
-    "scouting",
-    scouting_agent
-)
+    graph.add_edge(
+        "memory",
+        "rewriter"
+    )
 
-builder.add_node(
-    "commentary",
-    commentary_agent
-)
+    graph.add_edge(
+    "rewriter",
+    "supervisor"
+    )
 
+    graph.add_edge(
+        "supervisor",
+        "router"
+    )
 
-builder.add_edge(
-    "statistics",
-    "injury"
-)
+    graph.add_conditional_edges(
+        "router",
+        route_question,
+        {
+            "cricket": "cricket",
+            "football": "football"
+        }
+    )
 
-builder.add_edge(
-    "injury",
-    "transfer"
-)
+    graph.add_edge(
+        "cricket",
+        "analyze"
+    )
 
-builder.add_edge(
-    "transfer",
-    "scouting"
-)
+    graph.add_edge(
+        "football",
+        "analyze"
+    )
 
-builder.add_edge(
-    "scouting",
-    "commentary"
-)
+    graph.add_edge(
+        "analyze",
+        "answer"
+    )
 
-builder.add_edge(
-    "commentary",
-    "prediction"
-)
+    graph.add_edge(
+        "answer",
+        END
+    )
 
-builder.add_node(
-    "fantasy_team",
-    fantasy_team_agent
-)
+    memory = InMemorySaver()
 
-builder.add_node(
-    "match_prediction",
-    match_prediction_agent
-)
-
-builder.add_edge(
-    "prediction",
-    "fantasy_team"
-)
-
-builder.add_edge(
-    "fantasy_team",
-    "match_prediction"
-)
+    return graph.compile(
+        checkpointer=memory
+    )

@@ -1,36 +1,18 @@
-from typing import TypedDict, List, Dict
+from typing import TypedDict
 
 
-class EnterpriseState(TypedDict):
+class GraphState(
+    TypedDict
+):
+
+    session_id: str
 
     question: str
 
-    retrieved_chunks: List[str]
+    rewritten_question: str
 
-    player_findings: List[str]
+    retrieved_chunks: list[str]
 
-    team_findings: List[str]
+    selected_agent: str
 
-    statistics_findings: Dict
-
-    prediction_result: Dict
-
-    review_notes: List[str]
-
-    final_report: str
-
-    injury_findings: list
-
-    transfer_findings: list
-
-    scouting_findings: list
-
-    commentary: str
-
-    player_rankings: list
-
-    team_rankings: list
-
-    fantasy_team: list
-
-    match_prediction: str
+    answer: str
