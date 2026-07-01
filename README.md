@@ -1,89 +1,146 @@
-# Sports-ai-operating-system
-Enterprise AI Operating System for Sports Analytics using FastAPI, Qdrant, Redis, PostgreSQL, Gemini and LangGraph
+# 🏆 Sports Enterprise AI Operating System
 
-## Architecture
+An enterprise-grade AI platform for Sports Analytics powered by Retrieval-Augmented Generation (RAG), LangGraph, FastAPI, Google Gemini, PostgreSQL, Redis, Celery and Qdrant.
 
-User Query
-    ↓
-Retriever
-    ↓
-Qdrant Vector Store
-    ↓
-Context Builder
-    ↓
-Gemini
-    ↓
-Answer
+---
+
+## Overview
+
+Sports Enterprise AI OS is designed to help sports organizations build intelligent AI assistants capable of answering questions over large collections of football and cricket documents.
+
+Instead of relying solely on an LLM, the platform retrieves relevant information from indexed documents using Hybrid Search before generating grounded answers.
+
+---
 
 ## Features
 
-- FastAPI Backend
-- Docker Deployment
-- PostgreSQL
-- Redis
-- Qdrant
-- Local Embeddings
-- Semantic Retrieval
-- Gemini Answer Generation
-- End-to-End RAG
+### Enterprise Document Pipeline
 
-## Tech Stack
+- PDF Upload
+- Background Ingestion
+- Metadata Extraction
+- Recursive Chunking
+- Local Embeddings
+- Vector Indexing
+- Qdrant Integration
+
+---
+
+### Enterprise RAG
+
+- Semantic Search
+- Hybrid Retrieval
+- BM25 Retrieval
+- Cross Encoder Re-ranking
+- Context Construction
+- Google Gemini Response Generation
+
+---
+
+### AI Agents
+
+- LangGraph Workflow
+- Conversation Memory
+- Session Management
+- Chat History
+
+---
+
+### Backend
 
 - FastAPI
+- Celery
+- Redis
+- PostgreSQL
 - Docker
+- Swagger/OpenAPI
+
+---
+
+## Architecture
+
+PDF Upload
+
+↓
+
+Parser
+
+↓
+
+Chunking
+
+↓
+
+Embeddings
+
+↓
+
+Qdrant
+
+↓
+
+Retriever
+
+↓
+
+Cross Encoder
+
+↓
+
+Gemini
+
+↓
+
+Final Answer
+
+---
+
+## Technology Stack
+
+- Python
+- FastAPI
+- LangGraph
+- LangChain
+- Google Gemini
+- Qdrant
 - PostgreSQL
 - Redis
-- Qdrant
-- Gemini
+- Celery
+- Kafka
+- Docker
+- PyMuPDF
 - Sentence Transformers
+
+---
+
+## Current Status
+
+✔ Document Upload
+
+✔ Background Processing
+
+✔ RAG
+
+✔ Hybrid Search
+
+✔ Cross Encoder
+
+✔ Conversation Memory
+
+✔ LangGraph
+
+✔ Docker
+
+✔ Swagger APIs
+
+---
+
 ## Roadmap
 
-### Phase 1 — RAG Foundation ✅
-
-* [x] FastAPI Backend
-* [x] Docker Deployment
-* [x] PostgreSQL
-* [x] Redis
-* [x] Qdrant
-* [x] Local Embeddings
-* [x] Semantic Retrieval
-* [x] Gemini Answer Generation
-* [x] End-to-End RAG Pipeline
-
-### Phase 2 — Advanced Retrieval 🚧
-
-* [ ] Multi-document ingestion
-* [ ] Metadata extraction
-* [ ] Metadata filtering
-* [ ] Hybrid search
-* [ ] Reranking
-
-### Phase 3 — Agent Layer 🚧
-
-* [ ] LangGraph workflows
-* [ ] Agent orchestration
-* [ ] Tool calling
-* [ ] Memory systems
-* [ ] MCP integration
-
-### Phase 4 — Knowledge Graph 🚧
-
-* [ ] Neo4j integration
-* [ ] Entity linking
-* [ ] Relationship extraction
-* [ ] Graph retrieval
-
-### Phase 5 — Observability 🚧
-
-* [ ] Langfuse
-* [ ] Prometheus
-* [ ] Grafana
-* [ ] Cost tracking
-
-### Phase 6 — Production 🚧
-
-* [ ] CI/CD
-* [ ] Kubernetes
-* [ ] Monitoring
-* [ ] Cloud deployment
-
+- JWT Authentication
+- Enterprise Logging
+- Metrics
+- Observability
+- Knowledge Graph
+- React Dashboard
+- Kubernetes Deployment
